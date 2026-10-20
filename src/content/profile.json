@@ -1,0 +1,14 @@
+{
+  "name": "Isuru U. Senarathne",
+  "role": "Associate QA Engineer",
+  "location": "Gampaha, Sri Lanka",
+  "summary": "A dedicated and hardworking associate QA engineer with experience in manual testing, automation testing, API testing, test case design and defect reporting. Skilled in using Jira and Postman to identify defects, validate functionality and ensure software quality. Committed to delivering reliable, high-quality applications through effective testing, attention to detail and collaboration with development teams.",
+  "email": "isurusenarathne9@gmail.com",
+  "phone": "+94 76 424 7023",
+  "cv": "/cv.pdf",
+  "links": [
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/isuruu99/" },
+    { "label": "GitHub", "url": "https://github.com/IsuruUSenarathne" }
+  ],
+  "web3formsKey": ""
+}

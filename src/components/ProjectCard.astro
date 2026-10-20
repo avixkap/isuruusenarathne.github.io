@@ -1,0 +1,77 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>['data'];
+}
+
+const { project } = Astro.props;
+---
+
+<article class="project card">
+  <p class="type">{project.type}</p>
+  <h3 class="title">{project.title}</h3>
+  <p class="summary muted">{project.summary}</p>
+  {
+    project.tech.length > 0 && (
+      <ul class="tags">
+        {project.tech.map((tech) => (
+          <li class="tag">{tech}</li>
+        ))}
+      </ul>
+    )
+  }
+  {
+    project.link && (
+      <a class="source" href={project.link} target="_blank" rel="noopener noreferrer">
+        <Icon name="github" size={15} /> View on GitHub
+      </a>
+    )
+  }
+</article>
+
+<style>
+  .project {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.25rem;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+
+  .project:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+  }
+
+  .type {
+    margin: 0;
+    color: var(--accent);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .summary {
+    flex: 1;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .source {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+</style>

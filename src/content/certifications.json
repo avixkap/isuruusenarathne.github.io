@@ -1,0 +1,10 @@
+[
+  { "title": "Getting Started with DevOps", "issuer": "AWS" },
+  { "title": "Introduction to Containerization: Docker", "issuer": "Codeku" },
+  { "title": "Google Cloud Fundamentals: Core Infrastructure", "issuer": "Google Cloud Training" },
+  { "title": "Postman API Fundamentals Student Expert", "issuer": "Postman" },
+  { "title": "Kubernetes From 10,000 Feet", "issuer": "Codeku" },
+  { "title": "AI/ML Engineering", "issuer": "SLIIT" },
+  { "title": "Master DevOps: CI/CD, Automation & Monitoring Specialization", "issuer": "Coursera" },
+  { "title": "Introduction to Oracle SQL", "issuer": "Udemy" }
+]

@@ -1,0 +1,165 @@
+---
+interface Props {
+  email: string;
+  accessKey?: string;
+}
+
+const { email, accessKey } = Astro.props;
+const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
+---
+
+<p class="intro muted">
+  Have an opportunity or a question? {accessKey ? 'Send a message or email me at' : 'Email me at'}{' '}
+  <a href={`mailto:${email}`}>{email}</a>.
+</p>
+
+{
+  accessKey && (
+    <form class="contact-form card" action={WEB3FORMS_URL} method="POST">
+      <input type="hidden" name="access_key" value={accessKey} />
+      <input type="hidden" name="subject" value="New message from portfolio" />
+      <input type="checkbox" name="botcheck" class="honeypot" tabindex="-1" autocomplete="off" />
+
+      <label>
+        Name
+        <input type="text" name="name" required maxlength="100" autocomplete="name" />
+      </label>
+      <label>
+        Email
+        <input type="email" name="email" required maxlength="150" autocomplete="email" />
+      </label>
+      <label class="full">
+        Message
+        <textarea name="message" rows="5" required minlength="10" maxlength="2000"></textarea>
+      </label>
+
+      <div class="form-footer full">
+        <button class="btn btn-primary" type="submit">Send Message</button>
+        <output class="status" aria-live="polite"></output>
+      </div>
+    </form>
+  )
+}
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('.contact-form');
+
+  function setStatus(output: HTMLOutputElement, success: boolean, text: string) {
+    output.textContent = text;
+    output.dataset.state = success ? 'success' : 'error';
+  }
+
+  async function sendMessage(event: SubmitEvent) {
+    event.preventDefault();
+    const currentForm = event.currentTarget as HTMLFormElement;
+    const output = currentForm.querySelector('output') as HTMLOutputElement;
+    const button = currentForm.querySelector('button') as HTMLButtonElement;
+
+    button.disabled = true;
+    output.textContent = 'Sending...';
+    output.dataset.state = '';
+
+    try {
+      const response = await fetch(currentForm.action, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(currentForm),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) throw new Error(result.message);
+      setStatus(output, true, 'Thank you! Your message has been sent.');
+      currentForm.reset();
+    } catch {
+      setStatus(output, false, 'Sorry, the message could not be sent. Please use email instead.');
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  form?.addEventListener('submit', sendMessage);
+</script>
+
+<style>
+  .intro {
+    max-width: 68ch;
+    margin: 0 0 1.25rem;
+  }
+
+  .intro a {
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: var(--text-muted);
+    text-underline-offset: 3px;
+  }
+
+  .contact-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  label {
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .full {
+    grid-column: 1 / -1;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+    font: 0.93rem var(--font-sans);
+    resize: vertical;
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: var(--accent);
+    outline: none;
+  }
+
+  .honeypot {
+    display: none;
+  }
+
+  .form-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  .status {
+    font-size: 0.85rem;
+  }
+
+  .status[data-state='success'] {
+    color: var(--success);
+  }
+
+  .status[data-state='error'] {
+    color: var(--danger);
+  }
+
+  @media (max-width: 560px) {
+    .contact-form {
+      grid-template-columns: 1fr;
+      padding: 1.1rem;
+    }
+  }
+</style>

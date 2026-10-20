@@ -1,0 +1,37 @@
+[
+  {
+    "title": "LMS Microservices",
+    "type": "University Group Project",
+    "summary": "A scalable Learning Management System built with Spring Boot microservices.",
+    "tech": ["Spring Boot", "Spring Cloud", "Spring Security", "PostgreSQL", "Docker", "Kafka", "AWS Cognito", "GitHub Actions"],
+    "link": "https://github.com/IsuruUSenarathne/lms-microservices"
+  },
+  {
+    "title": "Green Connect",
+    "type": "University Group Project",
+    "summary": "A university student portal mobile application.",
+    "tech": ["Flutter", "Dart", "Firebase"],
+    "link": "https://github.com/IsuruUSenarathne/green_connect"
+  },
+  {
+    "title": "DbVault",
+    "type": "University Group Project",
+    "summary": "A simple database management system.",
+    "tech": ["Python", "Flask", "MySQL", "HTML", "CSS"],
+    "link": "https://github.com/IsuruUSenarathne/DbVault"
+  },
+  {
+    "title": "Phoenix Airlines",
+    "type": "University Group Project",
+    "summary": "A flight management system.",
+    "tech": ["Java", "Java Servlet", "MySQL"],
+    "link": "https://github.com/IsuruUSenarathne/flight-management-system"
+  },
+  {
+    "title": "Braille Windows",
+    "type": "University Group Project",
+    "summary": "A Braille printer desktop application that helps blind people recognize shapes and letters.",
+    "tech": ["C#", ".NET", "MySQL"],
+    "link": "https://github.com/IsuruUSenarathne/BrailleWindowsApp"
+  }
+]

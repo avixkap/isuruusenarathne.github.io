@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.astro/
+.env
+.DS_Store
+
+# Original CV source; the site serves public/cv.pdf
+/P.A.I.U.Senarathne(CV).pdf

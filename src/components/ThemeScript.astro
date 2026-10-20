@@ -1,0 +1,11 @@
+<!-- Runs before first paint so the page never flashes the wrong theme. -->
+<script is:inline>
+  (function () {
+    let saved = null;
+    try {
+      saved = localStorage.getItem('theme');
+    } catch {}
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+  })();
+</script>

@@ -1,0 +1,176 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { iconForLabel } from '../lib/icons';
+import { withBase } from '../lib/url';
+
+interface Props {
+  profile: CollectionEntry<'profile'>['data'];
+  nav: { id: string; label: string }[];
+}
+
+const { profile, nav } = Astro.props;
+
+function getInitials(name: string): string {
+  const words = name.split(' ').filter(Boolean);
+  const first = words[0]?.[0] ?? '';
+  const last = words.length > 1 ? words[words.length - 1][0] : '';
+  return (first + last).toUpperCase();
+}
+---
+
+<aside class="sidebar card">
+  <div class="sidebar-top">
+    {
+      profile.photo ? (
+        <img class="avatar" src={withBase(profile.photo)} alt={profile.name} width="112" height="112" />
+      ) : (
+        <div class="avatar avatar-fallback" aria-hidden="true">
+          {getInitials(profile.name)}
+        </div>
+      )
+    }
+    <ThemeToggle />
+  </div>
+
+  <h1 class="name">{profile.name}</h1>
+  <p class="role">{profile.role}</p>
+
+  <a class="btn btn-primary download" href={withBase(profile.cv)} download>
+    <Icon name="download" /> Download CV
+  </a>
+
+  <ul class="contact-list">
+    <li><Icon name="location" /> {profile.location}</li>
+    <li><Icon name="mail" /> <a href={`mailto:${profile.email}`}>{profile.email}</a></li>
+    {
+      profile.phone && (
+        <li>
+          <Icon name="phone" /> <a href={`tel:${profile.phone.replace(/\s/g, '')}`}>{profile.phone}</a>
+        </li>
+      )
+    }
+    {
+      profile.links.map((link) => (
+        <li>
+          <Icon name={iconForLabel(link.label)} />
+          <a href={link.url} target="_blank" rel="noopener noreferrer">
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <nav class="nav" aria-label="Sections">
+    {nav.map((item) => <a href={`#${item.id}`}>{item.label}</a>)}
+  </nav>
+</aside>
+
+<style>
+  .sidebar {
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    padding: 1.75rem;
+  }
+
+  .sidebar-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .avatar {
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    border: 3px solid var(--accent-soft);
+    object-fit: cover;
+  }
+
+  .avatar-fallback {
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  .name {
+    margin: 1.25rem 0 0.2rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .role {
+    margin: 0;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .download {
+    width: 100%;
+    margin: 1.25rem 0;
+  }
+
+  .contact-list {
+    display: grid;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 1.25rem 0 0;
+    border-top: 1px solid var(--border);
+    list-style: none;
+    font-size: 0.88rem;
+  }
+
+  .contact-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text-muted);
+    overflow-wrap: anywhere;
+  }
+
+  .contact-list a {
+    color: var(--text);
+  }
+
+  .nav {
+    display: grid;
+    gap: 0.15rem;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav a {
+    padding: 0.35rem 0.6rem;
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .nav a:hover {
+    background: var(--surface-muted);
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  @media (max-width: 900px) {
+    .sidebar {
+      position: static;
+      max-height: none;
+    }
+
+    .nav {
+      display: none;
+    }
+  }
+</style>

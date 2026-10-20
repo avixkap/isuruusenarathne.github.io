@@ -1,0 +1,26 @@
+[
+  {
+    "group": "Testing",
+    "items": ["Manual Testing", "Automation Testing (Playwright)", "API Testing (Postman)", "Test Case Design & Execution", "Bug Reporting & Defect Tracking", "SDLC & STLC", "Agile / Scrum"]
+  },
+  {
+    "group": "Languages & Tools",
+    "items": ["TypeScript", "JavaScript", "Python", "HTML & CSS", "SQL", "Jira", "Postman", "Playwright", "Git", "GitHub"]
+  },
+  {
+    "group": "Cloud & DevOps",
+    "items": ["AWS", "Amazon EC2", "Amazon S3", "Docker", "Kubernetes", "CI/CD", "Linux"]
+  },
+  {
+    "group": "Soft Skills",
+    "items": ["Communication", "Leadership & Teamwork", "Troubleshooting", "Decision-making", "Analytical Thinking"]
+  },
+  {
+    "group": "Spoken Languages",
+    "items": ["English", "Sinhala"]
+  },
+  {
+    "group": "Interests",
+    "items": ["Automation Engineering", "Artificial Intelligence", "SDET", "Learning New Technologies"]
+  }
+]

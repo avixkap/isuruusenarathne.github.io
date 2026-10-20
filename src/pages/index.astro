@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import Section from '../components/Section.astro';
+import TimelineItem from '../components/TimelineItem.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
+import { getOrderedCollection, getProfile } from '../lib/content';
+
+const profile = await getProfile();
+const experience = await getOrderedCollection('experience');
+const projects = await getOrderedCollection('projects');
+const skills = await getOrderedCollection('skills');
+const certifications = await getOrderedCollection('certifications');
+const education = await getOrderedCollection('education');
+
+const nav = [
+  { id: 'about', label: 'About' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'certifications', label: 'Certifications' },
+  { id: 'education', label: 'Education' },
+  { id: 'contact', label: 'Contact' },
+];
+
+const description = profile.summary.length > 160 ? `${profile.summary.slice(0, 157)}...` : profile.summary;
+const year = new Date().getFullYear();
+---
+
+<BaseLayout title={`${profile.name} | ${profile.role}`} description={description} image={profile.photo}>
+  <div class="layout">
+    <Sidebar profile={profile} nav={nav} />
+
+    <main>
+      <Section id="about" title="About Me">
+        <p class="about">{profile.summary}</p>
+      </Section>
+
+      <Section id="experience" title="Experience">
+        <ol class="timeline">
+          {
+            experience.map(({ data }) => (
+              <TimelineItem title={data.role} subtitle={data.company} start={data.start} end={data.end} tags={data.tech}>
+                <p>{data.summary}</p>
+              </TimelineItem>
+            ))
+          }
+        </ol>
+      </Section>
+
+      <Section id="projects" title="Projects">
+        <div class="grid">
+          {projects.map(({ data }) => <ProjectCard project={data} />)}
+        </div>
+      </Section>
+
+      <Section id="skills" title="Skills">
+        <div class="grid">
+          {
+            skills.map(({ data }) => (
+              <div class="skill-group">
+                <h3 class="small-heading">{data.group}</h3>
+                <ul class="tags">
+                  {data.items.map((item) => (
+                    <li class="tag">{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </Section>
+
+      <Section id="certifications" title="Certifications">
+        <ul class="grid certs">
+          {
+            certifications.map(({ data }) => (
+              <li class="cert card">
+                <span class="cert-icon">
+                  <Icon name="award" size={18} />
+                </span>
+                <div>
+                  <p class="cert-title">
+                    {data.link ? (
+                      <a href={data.link} target="_blank" rel="noopener noreferrer">
+                        {data.title}
+                      </a>
+                    ) : (
+                      data.title
+                    )}
+                  </p>
+                  <p class="muted cert-issuer">
+                    {data.issuer}
+                    {data.year && ` · ${data.year}`}
+                  </p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </Section>
+
+      <Section id="education" title="Education">
+        <ol class="timeline">
+          {
+            education.map(({ data }) => (
+              <TimelineItem title={data.qualification} subtitle={data.institution} start={data.start} end={data.end}>
+                {data.details && <p>{data.details}</p>}
+              </TimelineItem>
+            ))
+          }
+        </ol>
+      </Section>
+
+      <Section id="contact" title="Get In Touch">
+        <ContactForm email={profile.email} accessKey={profile.web3formsKey} />
+      </Section>
+
+      <footer class="footer muted">© {year} {profile.name}</footer>
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    align-items: start;
+    gap: 3.5rem;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  main {
+    min-width: 0;
+  }
+
+  .about {
+    max-width: 68ch;
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 1.02rem;
+  }
+
+  .timeline {
+    margin: 0;
+    padding: 0 0 0 0.4rem;
+    list-style: none;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .small-heading {
+    margin: 0 0 0.6rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .cert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .cert-icon {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .cert-title {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .cert-title a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--text-muted);
+    text-underline-offset: 3px;
+  }
+
+  .cert-issuer {
+    margin: 0.15rem 0 0;
+    font-size: 0.8rem;
+  }
+
+  .footer {
+    padding: 2rem 0 0.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      padding: 1rem;
+    }
+  }
+</style>

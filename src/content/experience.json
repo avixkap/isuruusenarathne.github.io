@@ -1,0 +1,17 @@
+[
+  {
+    "role": "Associate Quality Assurance Engineer",
+    "company": "4Axis Solutions (Pvt) Ltd.",
+    "start": "May 2026",
+    "summary": "Performing manual, automation and API testing to identify defects, verify functionality and ensure software quality using Jira and Postman.",
+    "tech": ["Playwright", "Postman", "Jira", "TypeScript"]
+  },
+  {
+    "role": "Intern Quality Assurance Engineer",
+    "company": "4Axis Solutions (Pvt) Ltd.",
+    "start": "Dec 2025",
+    "end": "May 2026",
+    "summary": "Gained practical experience in manual and API testing including test execution, bug reporting and defect tracking using Jira and Postman.",
+    "tech": ["Manual Testing", "Postman", "Jira"]
+  }
+]
